@@ -1,14 +1,10 @@
 # Kumo-Discord
 
 ## Rust app
-- Ping command with response time in ms
+`/ping` on Discord
 
 ## Docker image
-- Docker image
+`./update-package.sh` will use cross-rs to compile the rust project for a x86_64 linux target, build an updated docker image and push it to Gitea
 
 ## Ansible playbook
-### Task: Start kumo-discord
-- name: Kumo-Discord
-- image: git.kurumi.at/shinkuri/kumo-discord
-- remove on stop
-- detach
+Deploy the container using `ansible-playbook -i "localhost," -c local playbook.yml`

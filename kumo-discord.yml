@@ -1,0 +1,13 @@
+- name: Run Kumo-Discord Docker container
+  hosts: localhost
+  tasks:
+    - name: Pull Docker image
+      docker_image:
+        name: git.kurumi.at/shinkuri/kumo-discord
+        state: present
+
+    - name: Run container
+      docker_container:
+        name: Kumo-Discord
+        image: git.kurumi.at/shinkuri/kumo-discord
+        state: started
