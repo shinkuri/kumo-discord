@@ -1,6 +1,10 @@
-src/
+# Project stuff
+target/
+# Git stuff
 .gitignore
-Cargo.lock
-Cargo.toml
 README.md
-update-package.sh
+# Docker stuff
+Dockerfile
+# Build & Deploy scripts
+*.yml
+update-image.sh

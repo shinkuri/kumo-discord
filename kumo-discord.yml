@@ -11,6 +11,6 @@
         name: Kumo-Discord
         image: git.kurumi.at/shinkuri/kumo-discord
         env:
-          - "DISCORD_TOKEN:<paste_token_here>"
+          - "DISCORD_TOKEN:{{discord_token}}"
           - "GUILD_ID:136661702287556608`"
         state: started

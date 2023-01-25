@@ -4,7 +4,7 @@
 `/ping` on Discord
 
 ## Docker image
-`./update-package.sh` will use cross-rs to compile the rust project for a x86_64 linux target, build an updated docker image and push it to Gitea
+`./update-image.sh` will build an updated docker image and push it to Gitea
 
 ## Ansible playbook
-Deploy the container using `ansible-playbook -i "localhost," -c local playbook.yml`
+Deploy the container using `ansible-playbook -i inventory.yml, -u root -k --extra-vars "discord_token=" playbook.yml`
