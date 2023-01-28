@@ -1,29 +1,29 @@
-FROM rust:1.67 as builder
+FROM ekidd/rust-musl-builder:stable as builder
 ARG PROJECT=kumo-discord
 # Build dependencies
 RUN USER=root cargo new --bin $PROJECT
 WORKDIR ./$PROJECT
+COPY ./Cargo.lock ./Cargo.lock
 COPY ./Cargo.toml ./Cargo.toml
 RUN cargo build --release
 RUN rm src/*.rs
 # Copy source
 ADD . ./
 # Build source
-RUN rm ./target/release/deps/$PROJECT*
+RUN rm ./target/x86_64-unknown-linux-musl/release/deps/$PROJECT*
 RUN cargo build --release
 
 # Assemble image
-FROM debian:buster-slim
+FROM alpine:latest
 
 ARG APP=/usr/src/app
 
 # Create non-root user
 ENV APP_USER=kumo
-RUN groupadd $APP_USER \
-    && useradd -g $APP_USER $APP_USER \
-    && mkdir -p &{APP}
+RUN addgroup -S $APP_USER \
+    && adduser -S -g $APP_USER $APP_USER
 
-COPY --from=builder /$PROJECT/target/release/$PROJECT ${APP}/$PROJECT
+COPY --from=builder /home/rust/src/$PROJECT/target/x86_64-unknown-linux-musl/release/$PROJECT ${APP}/$PROJECT
 RUN chown -R $APP_USER:$APP_USER ${APP}
 
 # Set non-root user
