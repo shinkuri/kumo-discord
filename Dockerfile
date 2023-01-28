@@ -27,10 +27,11 @@ RUN groupadd $APP_USER \
 
 COPY --from=builder /$PROJECT/target/release/$PROJECT ${APP}/$PROJECT
 RUN chown -R $APP_USER:$APP_USER ${APP}
+RUN chmod +x ${APP}/$PROJECT
 
 # Set non-root user
 USER $APP_USER
 
 WORKDIR ${APP}
 
-ENTRYPOINT ./$PROJECT
+CMD ["./kumo_discord"]
