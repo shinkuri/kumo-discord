@@ -1,7 +1,11 @@
 #!/bin/bash
-image="git.kurumi.at/shinkuri/kumo-discord"
+registry="git.kurumi.at/shinkuri"
+image="kumo_discord"
+tag="latest"
 # Build docker image
-docker build -t $image .
+docker build -t $registry/$image:$tag .
+# Authenticate
+docker login $registry
 # Push new image to Gitea
-docker push $image
+docker push $registry/$image:$tag
 

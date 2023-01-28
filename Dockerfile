@@ -11,6 +11,7 @@ ADD . ./
 # Build source
 RUN rm target/release/deps/$PROJECT*
 RUN cargo build --release
+#RUN ls /$PROJECT/target/release/kumo*
 
 # Assemble image
 FROM debian:buster-slim
