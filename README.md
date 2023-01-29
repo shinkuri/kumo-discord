@@ -4,11 +4,12 @@
 `/ping` on Discord
 
 ## Docker image
-`./update-image.sh` will build an updated docker image and push it to Gitea
+`sh update-image.sh` will build an updated docker image and push it to Gitea
 
 ## Ansible playbook
 Deploy the container using `ansible-playbook -i inventory.yml, -u root -k --extra-vars "discord_token=" kumo-discord.yml`
 
+The parameters `-u` and `-k` are not necessary if key based ssh authentication is used
 |segment|explanation|
 |-|-|
 |`ansible-playbook`|the command|

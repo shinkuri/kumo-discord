@@ -1,5 +1,5 @@
 [package]
-name = "kumo_discord"
+name = "kumo-discord"
 version = "0.1.0"
 edition = "2021"
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 registry="git.kurumi.at/shinkuri"
-image="kumo_discord"
+image="kumo-discord"
 tag="latest"
 # Build docker image
 docker build -t $registry/$image:$tag .

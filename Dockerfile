@@ -1,5 +1,5 @@
 FROM rust:1.67 as builder
-ARG PROJECT=kumo_discord
+ARG PROJECT=kumo-discord
 # Build dependencies
 RUN USER=root cargo new --bin $PROJECT
 WORKDIR ./$PROJECT
@@ -9,14 +9,14 @@ RUN rm src/*.rs
 # Copy source
 ADD . ./
 # Build source
-RUN rm target/release/deps/$PROJECT*
+RUN rm target/release/deps/kumo_discord*
 RUN cargo build --release
 #RUN ls /$PROJECT/target/release/kumo*
 
 # Assemble image
 FROM debian:buster-slim
 
-ARG PROJECT=kumo_discord
+ARG PROJECT=kumo-discord
 ARG APP=/usr/src/app
 
 # Create non-root user
@@ -34,4 +34,4 @@ USER $APP_USER
 
 WORKDIR ${APP}
 
-CMD ["./kumo_discord"]
+CMD ["./kumo-discord"]
