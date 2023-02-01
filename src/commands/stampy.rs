@@ -4,16 +4,16 @@ use serenity::builder::CreateApplicationCommand;
 use serenity::model::prelude::interaction::application_command::CommandDataOption;
 
 pub fn run(_options: &[CommandDataOption]) -> String {
-    // TODO grab paramets
-
     let utc = Utc::now().naive_utc();
-    let berlin_time = Berlin.from_utc_datetime(&utc);
-    
-    berlin_time.checked_add_signed(Duration::minutes(8 * 60 + 4 * 6)); // add 8.4h
+    let berlin_time = Berlin.from_utc_datetime(&utc)
+            .checked_add_signed(Duration::minutes(8 * 60 + 4 * 6)); // adds 8.4h
 
-    berlin_time.to_string()
+    return match berlin_time {
+        Some(result) => result.to_string(),
+        None => "Process failed".to_string()
+    };
 }
 
 pub fn register(command: &mut CreateApplicationCommand) -> &mut CreateApplicationCommand {
-    command.name("stampy").description("Add 7.9h to current time")
+    command.name("stampy").description("Add 8.4h to current time")
 }
