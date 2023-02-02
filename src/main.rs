@@ -17,6 +17,8 @@ impl EventHandler for Handler {
             println!("Received command interaction: {command:#?}");
             let content = match command.data.name.as_str() {
                 "ping" => commands::ping::run(&command.data.options),
+                "timer" => commands::timer::run(&command.data.options),
+                "stampy" => commands::stampy::run(&command.data.options),
                 // More commands go here
                 _ => "not implemented :(".to_string(),
             };
@@ -42,7 +44,9 @@ impl EventHandler for Handler {
                 .expect("GUILD_ID must be an integer"),
         );
         let commands = GuildId::set_application_commands(&guild_id, &ctx.http, |commands| {
-            commands.create_application_command(|command| commands::ping::register(command))
+            commands.create_application_command(|command| commands::ping::register(command));
+            commands.create_application_command(|command| commands::timer::register(command));
+            commands.create_application_command(|command| commands::stampy::register(command))
             // More commands go here
         })
         .await;
@@ -57,7 +61,7 @@ impl EventHandler for Handler {
 
 #[tokio::main]
 async fn main() {
-    let token = std::env::var("DISCORD_TOKEN").expect("DISCORD_TOKEN missing in .env");
+    let token = std::env::var("DISCORD_TOKEN").expect("DISCORD_TOKEN missing");
 
     let mut client = Client::builder(token, GatewayIntents::empty())
         .event_handler(Handler)
