@@ -9,7 +9,7 @@ pub fn run(_options: &[CommandDataOption]) -> String {
     let then = utc.checked_add_signed(Duration::minutes(8 * 60 + 4 * 6));
 
     return match then {
-        Some(result) => format!("<t:{result}>"),
+        Some(result) => format!("<t:{}>", result.timestamp()),
         None => "Process failed".to_string()
     };
 }
