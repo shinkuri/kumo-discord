@@ -1,15 +1,15 @@
-use chrono::{TimeZone, Utc, Duration};
-use chrono_tz::Europe::Berlin;
+use chrono::{Utc, Duration};
+
 use serenity::builder::CreateApplicationCommand;
 use serenity::model::prelude::interaction::application_command::CommandDataOption;
 
 pub fn run(_options: &[CommandDataOption]) -> String {
     let utc = Utc::now().naive_utc();
-    let berlin_time = Berlin.from_utc_datetime(&utc)
-            .checked_add_signed(Duration::minutes(8 * 60 + 4 * 6)); // adds 8.4h
+    
+    let then = utc.checked_add_signed(Duration::minutes(8 * 60 + 4 * 6));
 
-    return match berlin_time {
-        Some(result) => result.to_string(),
+    return match then {
+        Some(result) => format!("<t:{result}>"),
         None => "Process failed".to_string()
     };
 }
