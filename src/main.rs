@@ -1,11 +1,13 @@
 mod commands;
 
+use serenity::all::CreateInteractionResponse;
+use serenity::all::CreateInteractionResponseMessage;
+use serenity::all::GuildId;
+use serenity::all::Interaction;
+use serenity::all::Ready;
 use serenity::async_trait;
 // for global commands
 //use serenity::model::application::command::Command;
-use serenity::model::application::interaction::{Interaction, InteractionResponseType};
-use serenity::model::gateway::Ready;
-use serenity::model::id::GuildId;
 use serenity::prelude::*;
 
 struct Handler;
@@ -13,7 +15,7 @@ struct Handler;
 #[async_trait]
 impl EventHandler for Handler {
     async fn interaction_create(&self, ctx: Context, interaction: Interaction) {
-        if let Interaction::ApplicationCommand(command) = interaction {
+        if let Interaction::Command(command) = interaction {
             println!("Received command interaction: {command:#?}");
             let content = match command.data.name.as_str() {
                 "ping" => commands::ping::run(&command.data.options),
@@ -22,12 +24,8 @@ impl EventHandler for Handler {
                 // More commands go here
                 _ => "not implemented :(".to_string(),
             };
-            if let Err(why) = command
-                .create_interaction_response(&ctx.http, |response| {
-                    response
-                        .kind(InteractionResponseType::ChannelMessageWithSource)
-                        .interaction_response_data(|message| message.content(content))
-                })
+            if let Err(why) = command.create_response(&ctx.http, 
+                CreateInteractionResponse::Message(CreateInteractionResponseMessage::new().content(content)))
                 .await
             {
                 println!("Cannot respond to slash command: {why}");
@@ -37,18 +35,18 @@ impl EventHandler for Handler {
 
     async fn ready(&self, ctx: Context, ready: Ready) {
         println!("{} is connected!", ready.user.name);
-        let guild_id = GuildId(
+        let guild_id = GuildId::new(
             std::env::var("GUILD_ID")
                 .expect("GUILD_ID must be set.")
                 .parse()
                 .expect("GUILD_ID must be an integer"),
         );
-        let commands = GuildId::set_application_commands(&guild_id, &ctx.http, |commands| {
-            commands.create_application_command(|command| commands::ping::register(command));
-            commands.create_application_command(|command| commands::timer::register(command));
-            commands.create_application_command(|command| commands::stampy::register(command))
+        let commands = guild_id.set_commands(&ctx.http, vec![
+            commands::ping::register(),
+            commands::timer::register(),
+            commands::stampy::register(),
             // More commands go here
-        })
+        ])
         .await;
         println!("I now have the following guild slash commands: {commands:#?}`");
         // let guild_command = Command::create_global_application_command(&ctx.http, |command| {
@@ -63,7 +61,11 @@ impl EventHandler for Handler {
 async fn main() {
     let token = std::env::var("DISCORD_TOKEN").expect("DISCORD_TOKEN missing");
 
-    let mut client = Client::builder(token, GatewayIntents::empty())
+    let intents = GatewayIntents::GUILD_MESSAGES
+    | GatewayIntents::DIRECT_MESSAGES
+    | GatewayIntents::MESSAGE_CONTENT;
+
+    let mut client = Client::builder(&token, intents)
         .event_handler(Handler)
         .await
         .expect("Failed to create client");

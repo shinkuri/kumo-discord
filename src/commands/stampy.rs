@@ -1,7 +1,7 @@
 use chrono::{Utc, Duration};
 
-use serenity::builder::CreateApplicationCommand;
-use serenity::model::prelude::interaction::application_command::CommandDataOption;
+use serenity::builder::CreateCommand;
+use serenity::model::application::CommandDataOption;
 
 pub fn run(_options: &[CommandDataOption]) -> String {
     let utc = Utc::now().naive_utc();
@@ -14,6 +14,6 @@ pub fn run(_options: &[CommandDataOption]) -> String {
     };
 }
 
-pub fn register(command: &mut CreateApplicationCommand) -> &mut CreateApplicationCommand {
-    command.name("stampy").description("Add 8.4h to current time")
+pub fn register() -> CreateCommand {
+    CreateCommand::new("stampy").description("Add 8.4h to current time")
 }

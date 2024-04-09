@@ -1,4 +1,4 @@
-FROM rust:1.67 as builder
+FROM rust:1.77.1 as builder
 ARG PROJECT=kumo-discord
 # Build dependencies
 RUN USER=root cargo new --bin $PROJECT

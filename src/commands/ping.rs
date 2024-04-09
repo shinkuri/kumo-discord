@@ -1,10 +1,10 @@
-use serenity::builder::CreateApplicationCommand;
-use serenity::model::prelude::interaction::application_command::CommandDataOption;
+use serenity::builder::CreateCommand;
+use serenity::model::application::CommandDataOption;
 
 pub fn run(_options: &[CommandDataOption]) -> String {
     "pong".to_string()
 }
 
-pub fn register(command: &mut CreateApplicationCommand) -> &mut CreateApplicationCommand {
-    command.name("ping").description("A ping command")
+pub fn register() -> CreateCommand {
+    CreateCommand::new("ping").description("A ping command")
 }
