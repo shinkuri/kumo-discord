@@ -22,6 +22,8 @@ $ echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
 > Login Succeeded
 ```
 
+Store your Token in a secure fault or secret store! (like KeePassXC)
+
 ## Ansible playbook
 Deploy the container using `ansible-playbook -i inventory.yml, -u root -k --extra-vars "discord_token=" kumo-discord.yml`
 
