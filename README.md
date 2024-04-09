@@ -1,8 +1,8 @@
 # Kumo-Discord
 
 ## Rust app
-`/ping` on Discord
-`/stampy` will output the local time in 8.4h
+- `/ping` on Discord
+- `/stampy` will output the local time in 8.4h
 
 ## Docker image
 Run 
