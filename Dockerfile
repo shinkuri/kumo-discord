@@ -14,7 +14,7 @@ RUN cargo build --release
 #RUN ls /$PROJECT/target/release/kumo*
 
 # Assemble image
-FROM debian:buster-slim
+FROM debian:stable-20240408-slim
 
 ARG PROJECT=kumo-discord
 ARG APP=/usr/src/app

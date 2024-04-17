@@ -6,7 +6,7 @@ $tag = "latest"
 # Build docker image
 docker build -t "${registry}/${image}:${tag}" .
 # Authenticate - Password is taken from input
-docker login $registry -u $user --password-stdin
+# docker login $registry -u $user --password-stdin
 # Push new image to Gitea
-docker push "${registry}/${image}:${tag}"
+# docker push "${registry}/${image}:${tag}"
 
